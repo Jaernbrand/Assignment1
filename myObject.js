@@ -4,7 +4,7 @@ var myObject = {
 		var parents = [];
 		// Om prototypeList är en array och den inte är null eller tom
 		if(Array.isArray(prototypeList) && (prototypeList != null || prototypeList.length == 0)){
-			for(i = 0; i < prototypeList.length; i++){
+			for(var i = 0; i < prototypeList.length; i++){
 				// Om objekt och inte array
 				if(typeof prototypeList[i] === 'object' && !Array.isArray(prototypeList[i])){
 					parents.push(prototypeList[i]);
@@ -21,7 +21,7 @@ var myObject = {
 			return funcName(parameters);
 		}
 
-		for (i=0; i < parents.length; ++i){
+		for (var i=0; i < parents.length; ++i){
 			return parents[i].call(funcName, parameters);
 		}
 
