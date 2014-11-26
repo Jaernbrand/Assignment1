@@ -22,7 +22,9 @@ var myObject = {
 		this.foundFunction = false;
 		if (funcName in this && typeof this[funcName] === "function" ){
 			this.foundFunction = true;
-			return this[funcName](parameters);
+			//return this[funcName](parameters);
+			var f = this[funcName];
+			return f.apply(null, parameters);
 		}
 
 		for (var i=0; i < this.parents.length; ++i){
