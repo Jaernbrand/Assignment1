@@ -1,6 +1,6 @@
 var myObject = {
 
-	var foundFunction: false,
+	foundFunction: false,
 	
 	create: function(prototypeList){
 		var parents = [];
