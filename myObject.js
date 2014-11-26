@@ -20,18 +20,18 @@ var myObject = {
 
 	call: function(funcName, parameters){
 		this.foundFunction = false;
-		if (typeof funcName === "function"){
+		if (funcName in this && typeof this[funcName] === "function" ){
 			this.foundFunction = true;
-			return funcName(parameters);
+			return this[funcName](parameters);
 		}
 
-		for (var i=0; i < parents.length; ++i){
-			var returnValue = parents[i].call(funcName, parameters);
-			this.foundFunction = parents[i].foundFunction;
+		for (var i=0; i < this.parents.length; ++i){
+			var returnValue = this.parents[i].call(funcName, parameters);
+			this.foundFunction = this.parents[i].foundFunction;
 			if (this.foundFunction){
 				return returnValue;
 			}
 		}
-
 	}
 };
+
