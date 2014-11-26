@@ -2,27 +2,22 @@
 <html>
 <head>
 <script src="myObject.js"></script>
+<script src="createClass.js"></script>
 </head>
 <body>
 <h1>Prototype-Based Multiple Inheritance</h1>
 
 <script> 
-	document.write(myObject);
 	var obj0 = myObject.create(null);
-	document.write(obj0);
 	obj0.func = function(arg) { return "func0: " + arg; };
-	document.write(obj0.func);
 	var obj1 = myObject.create([obj0]);
-	document.write(obj1);
 	var obj2 = myObject.create([]);
-	document.write(obj2);
 	obj2.func = function(arg) { return  "func2: " + arg; };
-	document.write(obj2.func);
 	var obj3 = myObject.create([obj1, obj2]);	
 	var result = obj3.call("func", ["hello", "katt", "hund", "fisk"]);	
-	document.write(result);
+	document.write("Multiple arguments: " + result + "<br>");
 	result = obj3.call("func", ["hello"]);	
-	document.write(result);
+	document.write("One argument: " + result + "<br>");
 </script>
 
 <h1>Class-Based Multiple Inheritance</h1>
