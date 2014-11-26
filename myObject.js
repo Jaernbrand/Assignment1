@@ -27,6 +27,7 @@ var myObject = {
 
 		for (var i=0; i < parents.length; ++i){
 			var returnValue = parents[i].call(funcName, parameters);
+			this.foundFunction = parents[i].foundFunction;
 			if (this.foundFunction){
 				return returnValue;
 			}
