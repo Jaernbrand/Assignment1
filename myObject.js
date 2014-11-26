@@ -1,4 +1,6 @@
 var myObject = {
+
+	var foundFunction: false,
 	
 	create: function(prototypeList){
 		var parents = [];
@@ -17,12 +19,17 @@ var myObject = {
 	},
 
 	call: function(funcName, parameters){
-		if (typeof funcName == "function"){
+		this.foundFunction = false;
+		if (typeof funcName === "function"){
+			this.foundFunction = true;
 			return funcName(parameters);
 		}
 
 		for (var i=0; i < parents.length; ++i){
-			return parents[i].call(funcName, parameters);
+			var returnValue = parents[i].call(funcName, parameters);
+			if (this.foundFunction){
+				return returnValue;
+			}
 		}
 
 	}
