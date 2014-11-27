@@ -19,6 +19,14 @@ var myObject = {
 	},
 
 	call: function(funcName, parameters){
+		var visited;
+		if (Array.isArray(arguments[2])){
+			visited = arguments[2];
+		} else {
+			visited = [];
+		}
+
+		visited.push(this);
 		this.foundFunction = false;
 		if (funcName in this && typeof this[funcName] === "function" ){
 			this.foundFunction = true;
@@ -28,7 +36,11 @@ var myObject = {
 		}
 
 		for (var i=0; i < this.parents.length; ++i){
-			var returnValue = this.parents[i].call(funcName, parameters);
+			var returnValue; 
+			if (visited.indexOf(this.parents[i]) == -1){
+				document.write(this.parents[i].name+ "<br>");
+				returnValue = this.parents[i].call(funcName, parameters, visited);
+			}
 			this.foundFunction = this.parents[i].foundFunction;
 			if (this.foundFunction){
 				return returnValue;

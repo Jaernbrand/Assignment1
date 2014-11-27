@@ -3,11 +3,18 @@ function createClass(className, superClassList){
 	var newClass = { 
 	foundFunction : false,
 	name : className,
-	parents : superClassList
+	parents : [] 
 	};
 
-	newClass.new = function(){ return Object.create(this); };
-	
+	if (Array.isArray(superClassList) && (superClassList != null || superClassList.length == 0)){
+    	for(var i = 0; i < superClassList.length; i++){
+        	if (typeof superClassList[i] === 'object' && !Array.isArray(superClassList[i])){
+            	newClass.parents.push(superClassList[i]);
+            }
+    	}
+	}
+
+	newClass.new = function(){ return Object.create(this); };	
 
 	newClass.haveFunction = 
 	function (funcName, parameters){
@@ -32,14 +39,15 @@ function createClass(className, superClassList){
 		// Rotobjektet läggs i visited(alla vi besökt) och i arrayen currentLevel, leveln vi är på..
 		var visited = [ this]; 
 		var currentLevel = [this]; //array med objekt vars parents vi ska söka igenom
-
+		
+		var c = 0;
 		while(currentLevel.length != 0){ //While currentLevel's not empty
 			nextLevel = [ ];
 			
 			for(var k = 0; k < currentLevel.length; ++k){
 					for(var m = 0; m < currentLevel[k].parents.length; ++m){
-						if( !visited in currentLevel[k].parents[m] ){ //om vi inte har vi sätt den förut " ! "
-							if(currentLevel[k].parents[m].haveFunction(funcName, parameters)){ //Kolla om den har funktionen
+						if (visited.indexOf(currentLevel[k].parents[m]) == -1){ //om vi inte har vi sätt den förut " ! "
+							if(currentLevel[k].parents[m].haveFunction(funcName, parameters)){ //Kolla om den har funktionen	
 								var f = currentLevel[k].parents[m][funcName];
 								return f.apply(null, parameters); //Hittar funktionen och returnerar den..
 							}
@@ -50,11 +58,10 @@ function createClass(className, superClassList){
 			}					
 			currentLevel = nextLevel; //Fel om det kopieras...vilket det förmodligen görs..
 		}
-	};				
+	}; // call				
 	
 	//---------------------------------------------------------------------------------------------------------------------------------------------------------
 	//---------------------------------------------------------------------------------------------------------------------------------------------------------			
-	
 	return newClass;	
 }
 
