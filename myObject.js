@@ -2,6 +2,7 @@ var myObject = {
 
 	foundFunction: false,
 	
+	//create(prototypeList)
 	create: function(prototypeList){
 		var parents = [];
 		// Om prototypeList är en array och den inte är null eller tom
@@ -18,6 +19,8 @@ var myObject = {
 		return newObject;	
 	}, // create(prototypeList)
 
+	
+	//call(funcName, parameters)
 	call: function(funcName, parameters){
 		var visited;
 		if (Array.isArray(arguments[2])){
