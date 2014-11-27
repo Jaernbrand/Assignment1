@@ -30,7 +30,11 @@
 	class2.func = function(arg) { return "func2: " + arg; };
 	var class3 = createClass("Class3", [class1, class2]);
 	var obj3 = class3.new();
+	document.write("obj3: " + obj3 + "<br>");
+	document.write("obj3.call: " + typeof obj3.call + "<br>");
+	document.write("obj3.parents: " + obj3.parents + "<br>");
 	var result = obj3.call("func", ["hello"]);
+	document.write("obj3.call: " + result + "<br>");
 </script>
 
 </body>
