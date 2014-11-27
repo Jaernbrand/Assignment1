@@ -16,7 +16,7 @@ var myObject = {
 		var newObject = Object.create(this);
 		newObject.parents = parents;
 		return newObject;	
-	},
+	}, // create(prototypeList)
 
 	call: function(funcName, parameters){
 		var visited;
@@ -30,15 +30,13 @@ var myObject = {
 		this.foundFunction = false;
 		if (funcName in this && typeof this[funcName] === "function" ){
 			this.foundFunction = true;
-			//return this[funcName](parameters);
 			var f = this[funcName];
 			return f.apply(null, parameters);
 		}
 
 		for (var i=0; i < this.parents.length; ++i){
 			var returnValue; 
-			if (visited.indexOf(this.parents[i]) == -1){
-				document.write(this.parents[i].name+ "<br>");
+			if (visited.indexOf(this.parents[i]) == -1){ // Kollar om vi besökt en superklass tidigare
 				returnValue = this.parents[i].call(funcName, parameters, visited);
 			}
 			this.foundFunction = this.parents[i].foundFunction;
@@ -46,6 +44,6 @@ var myObject = {
 				return returnValue;
 			}
 		}
-	}
+	} // call(funcName, parameters)
 };
 
