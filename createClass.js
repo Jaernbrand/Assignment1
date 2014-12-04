@@ -39,6 +39,7 @@ function createClass(className, superClassList){
 		}
 		
 		if(this.haveFunction(funcName, parameters)){ //Kolla om rotobjektet har funktionen
+			this.foundFunction = true;
 			var f = this[funcName];
 			return f.apply(null, parameters); 
 		}
@@ -55,10 +56,9 @@ function createClass(className, superClassList){
 			}
 		}
 	}; // call(funcName, parameters)
-};		
-			
+	
 	return newClass;	
-}
+};
 
 
 
