@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+
+<script src="myObject.js"></script>
+<script src="createClass.js"></script>
+</head>
+<body>
+<h1>Prototype-Based Multiple Inheritance</h1>
+
+<script> 
+	// Peters exempel
+	var obj0 = myObject.create(null);
+	obj0.func = function(arg) { return "func0: " + arg; };
+	var obj1 = myObject.create([obj0]);
+	var obj2 = myObject.create([]);
+	obj2.func = function(arg) { return  "func2: " + arg; };
+	var obj3 = myObject.create([obj1, obj2]);	
+	var result = obj3.call("func", ["hello", "katt", "hund", "fisk"]);	
+	document.write("Multiple arguments: " + result + "<br>");
+	result = obj3.call("func", ["hello"]);	
+	document.write("One argument: " + result + "<br>");
+	
+	// Testar circulärt arv
+	var obj10 = myObject.create(null);
+	var obj12 = myObject.create([]);
+	var obj11 = myObject.create([obj12, obj10]);
+	var obj13 = myObject.create([obj11, obj12]);	
+	obj12.parents.unshift(obj13);
+	var obj14 = myObject.create(null);	
+	obj12.parents.unshift(obj14);
+	obj13.parents.unshift(obj14);
+	
+	// objectnamn för spårutskrifter
+	obj10.name = "obj10";
+	obj11.name = "obj11";
+	obj12.name = "obj12";
+	obj13.name = "obj13";
+	obj14.name = "obj14";
+	
+	// ska ge undefined
+	var result = obj13.call("func", ["hello"]);	
+	document.write("One argument: " + result + "<br>");
+
+	// ska ge func2-utskriften
+	obj10.func = function(arg) { return "func0: " + arg; };
+	obj12.func = function(arg) { return  "func2: " + arg; };
+	var result = obj13.call("func", ["hello"]);	
+	document.write("One argument: " + result + "<br>");
+</script>
+
+<h1>Class-Based Multiple Inheritance</h1>
+
+<script>
+	// Peters exempel
+	var class0 = createClass("Class0", null);
+	class0.func = function(arg) { return "func0: " + arg; };
+	var class1 = createClass("Class1", [class0]);
+	var class2 = createClass("Class2", []);
+	class2.func = function(arg) { return "func2: " + arg; };
+	var class3 = createClass("Class3", [class1, class2]);
+	var obj3 = class3.new();
+	var result = obj3.call("func", ["hello"]);
+	document.write("obj3.call: " + result + "<br>"); // Ska skriva ut func0-functionen
+	
+	// Utökning för att kolla så att klasser endast ska besökas en gång
+	var class10 = createClass("Class10", null);
+	var class11 = createClass("Class11", [class10]);
+	var class12 = createClass("Class12", []);
+	class11.parents.unshift(class12);
+	var class13 = createClass("Class13", [class11, class12]);
+	var obj13 = class13.new();
+	var result = obj13.call("func", ["hello"]);
+	document.write("obj13.call: " + result + "<br>"); // ska skriva ut undefined
+</script>
+
+</body>
+
+</html>
