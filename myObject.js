@@ -42,11 +42,17 @@ var myObject = {
 			if (visited.indexOf(this.parents[i]) == -1){ // Kollar om vi besökt en superklass tidigare
 				returnValue = this.parents[i].call(funcName, parameters, visited);
 			}
-			this.foundFunction = this.parents[i].foundFunction;
-			if (this.foundFunction){
+			this.foundFunction = this.parents[i].foundFunction; 
+			if (this.foundFunction){ // Om vi hittade funktionen hos föräldern så har returnValue fått ett värde
 				return returnValue;
 			}
 		}
 	} // call(funcName, parameters)
 };
+
+
+
+
+
+
 
