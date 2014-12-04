@@ -31,36 +31,34 @@ function createClass(className, superClassList){
 	newClass.call =
 	function(funcName, parameters) {
 		
+		var visited;
+		if (Array.isArray(arguments[2])){
+			visited = arguments[2];
+		} else {
+			visited = [];
+		}
+		
 		if(this.haveFunction(funcName, parameters)){ //Kolla om rotobjektet har funktionen
 			var f = this[funcName];
 			return f.apply(null, parameters); 
 		}
-		
-		// Rotobjektet läggs i visited (alla vi besökt) och i arrayen currentLevel (leveln vi är på)
-		var visited = [this];  //De vi besökt och inte vill besöka igen
-		var currentLevel = [this]; //Array med objekt vars parents vi ska söka igenom
-		
-		var c = 0;
-		while(currentLevel.length != 0){ //While currentLevel's not empty
-			nextLevel = [ ];
-			
-			for(var k = 0; k < currentLevel.length; ++k){
-					for(var m = 0; m < currentLevel[k].parents.length; ++m){ 
-						if (visited.indexOf(currentLevel[k].parents[m]) == -1){ //Om vi inte har vi sätt den förut
-							if(currentLevel[k].parents[m].haveFunction(funcName, parameters)){ //Kolla om den har funktionen	
-								var f = currentLevel[k].parents[m][funcName];
-								return f.apply(null, parameters); //Hittar funktionen och returnerar den
-							}
-							nextLevel.push(currentLevel[k].parents[m]); //Föräldrarna som ska kollas nästa varv
-							visited.push(currentLevel[k].parents[m]); //Läggs till som besökt
-						}
-					}
-			}					
-			currentLevel = nextLevel;
+		visited.push(this);
+
+		for (var i=0; i < this.parents.length; ++i){
+			var returnValue; 
+			if (visited.indexOf(this.parents[i]) == -1){ // Kollar om vi besökt en superklass tidigare
+				returnValue = this.parents[i].call(funcName, parameters, visited);
+			}
+			this.foundFunction = this.parents[i].foundFunction; 
+			if (this.foundFunction){ // Om vi hittade funktionen hos föräldern så har returnValue fått ett värde
+				return returnValue;
+			}
 		}
-	}; // call				
+	}; // call(funcName, parameters)
+};		
 			
 	return newClass;	
 }
+
 
 
