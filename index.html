@@ -38,10 +38,12 @@
 	obj12.name = "obj12";
 	obj13.name = "obj13";
 	obj14.name = "obj14";
-
+	
+	// ska ge undefined
 	var result = obj13.call("func", ["hello"]);	
 	document.write("One argument: " + result + "<br>");
 
+	// ska ge func2-utskriften
 	obj10.func = function(arg) { return "func0: " + arg; };
 	obj12.func = function(arg) { return  "func2: " + arg; };
 	var result = obj13.call("func", ["hello"]);	
@@ -60,7 +62,7 @@
 	var class3 = createClass("Class3", [class1, class2]);
 	var obj3 = class3.new();
 	var result = obj3.call("func", ["hello"]);
-	document.write("obj3.call: " + result + "<br>");
+	document.write("obj3.call: " + result + "<br>"); // Ska skriva ut func0-functionen
 	
 	// Utökning för att kolla så att klasser endast ska besökas en gång
 	var class10 = createClass("Class10", null);
@@ -70,7 +72,7 @@
 	var class13 = createClass("Class13", [class11, class12]);
 	var obj13 = class13.new();
 	var result = obj13.call("func", ["hello"]);
-	document.write("obj13.call: " + result + "<br>");
+	document.write("obj13.call: " + result + "<br>"); // ska skriva ut undefined
 </script>
 
 </body>
